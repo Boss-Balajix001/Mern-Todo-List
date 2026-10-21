@@ -1,31 +1,38 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
-import todoRoutes from "./routes/todo.route.js"
+import todoRoutes from './routes/todo.route.js';
 import { connectDB } from './config/db.js';
-import path from "path";
-const PORT = proscess.env.PORT || 5000;
+import { fileURLToPath } from 'url';
+import path from 'path';
 
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-dotenv.config();
 
 app.use(express.json());
 
-// app.get('/',(req,res)=>{
-//     res.send("server is ready")
-// })
+app.use('/api/todos', todoRoutes);
 
-app.use('/api/todos', todoRoutes)
+if (process.env.NODE_ENV === 'production') {
+    const frontendPath = path.join(__dirname, '../frontend/Boss_Todo/dist');
 
-if(process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname, "/frontend/dist")));
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "frontend", "dist","index.html"))
-    })
+    app.use(express.static(frontendPath));
+
+    app.get('/{*splat}', (req, res) => {
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
 }
 
-
-app.listen(5000,()=>{
-    connectDB();
-    console.log("Server running at 5000")
-})
+app.listen(PORT, async () => {
+    try {
+        await connectDB();
+        console.log(`Server running on port ${PORT}`);
+    } catch (error) {
+        console.error('Database connection failed:', error);
+    }
+});
