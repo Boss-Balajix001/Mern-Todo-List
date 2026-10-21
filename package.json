@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon backend/server.js",
-   
-
-"build": "npm install && npm install --prefix Frontend/Boss_Todo && npm run build --prefix Frontend/Boss_Todo"
-,
-    "start":"node backend/server.js"
-
-  },
+"dev": "nodemon backend/server.js",
+"build": "npm install && npm install --prefix frontend/Boss_Todo --include=dev && npm run build --prefix frontend/Boss_Todo",
+"start": "node backend/server.js"
+},
   "type": "module",
   "keywords": [],
   "author": "",
