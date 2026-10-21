@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "nodemon backend/server.js",
    
-"build": "npm install && npm install --prefix frontend/Boss_Todo && npm run build --prefix frontend/Boss_Todo",
+
+"build": "npm install && npm install --prefix Frontend/Boss_Todo && npm run build --prefix Frontend/Boss_Todo"
+,
     "start":"node backend/server.js"
 
   },
